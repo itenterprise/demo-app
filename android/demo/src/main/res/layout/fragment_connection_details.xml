@@ -1,0 +1,329 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="com.it.demo.ConnectionDetailsFragment">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="16dp"
+			android:paddingRight="16dp"
+			android:paddingTop="5dp"
+			android:paddingBottom="5dp"
+			android:orientation="vertical">
+
+			<TextView
+				android:id="@+id/fragment_connection_details_function"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:paddingBottom="5dp"
+				android:textSize="18sp"/>
+
+			<LinearLayout
+				android:paddingTop="5dp"
+				android:paddingBottom="5dp"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textSize="16sp"
+					android:text="@string/status_colon"/>
+
+				<ImageView
+					android:id="@+id/fragment_connection_details_status_color"
+					android:layout_margin="3dp"
+					android:layout_width="10dp"
+					android:layout_height="10dp"
+					android:layout_gravity="center_vertical"/>
+
+				<TextView
+					android:id="@+id/fragment_connection_details_status"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textSize="16sp"/>
+
+				<TextView
+					android:id="@+id/fragment_connection_details_date"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:paddingLeft="8dp"
+					android:textColor="@color/darker_gray"
+					android:textSize="16sp"/>
+			</LinearLayout>
+		</LinearLayout>
+
+		<View
+			android:layout_height="0.5dip"
+			android:layout_width="fill_parent"
+			android:background="@color/gray"/>
+
+		<LinearLayout
+			android:id="@+id/fragment_connection_details_user_layout"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:background="@color/gray_light_background"
+			android:paddingTop="7dp"
+			android:paddingBottom="7dp"
+			android:paddingRight="7dp"
+			android:orientation="horizontal">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:layout_weight="1.0"
+				android:gravity="left|center"
+				android:paddingTop="3dp"
+				android:paddingBottom="3dp"
+				android:paddingLeft="30dp"
+				android:text="@string/user"
+				android:textStyle="bold"
+				android:textSize="17sp" >
+			</TextView>
+		</LinearLayout>
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="16dp"
+			android:paddingRight="16dp"
+			android:orientation="vertical">
+
+			<LinearLayout
+				android:paddingTop="5dp"
+				android:paddingBottom="5dp"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+
+				<TextView
+					android:text="@string/fio_colon"
+					android:layout_width="250dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textSize="16sp"/>
+				<TextView
+					android:id="@+id/fragment_connection_details_fio"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textSize="16sp"/>
+			</LinearLayout>
+
+			<LinearLayout
+				android:paddingTop="5dp"
+				android:paddingBottom="5dp"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+
+				<TextView
+					android:text="@string/it_login_colon"
+					android:layout_width="250dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textSize="16sp"/>
+				<TextView
+					android:id="@+id/fragment_connection_details_it_login"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textSize="16sp"/>
+			</LinearLayout>
+
+			<LinearLayout
+				android:paddingTop="5dp"
+				android:paddingBottom="5dp"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+
+				<TextView
+					android:text="@string/windows_login_colon"
+					android:layout_width="250dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textSize="16sp"/>
+				<TextView
+					android:id="@+id/fragment_connection_details_windows_login"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textSize="16sp"/>
+			</LinearLayout>
+
+			<LinearLayout
+				android:paddingTop="5dp"
+				android:paddingBottom="5dp"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+
+				<TextView
+					android:text="@string/sql_login_colon"
+					android:layout_width="250dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textSize="16sp"/>
+				<TextView
+					android:id="@+id/fragment_connection_details_sql_login"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textSize="16sp"/>
+			</LinearLayout>
+
+			<LinearLayout
+				android:paddingTop="5dp"
+				android:paddingBottom="5dp"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+
+				<TextView
+					android:text="@string/pc_colon"
+					android:layout_width="250dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textSize="16sp"/>
+				<TextView
+					android:id="@+id/fragment_connection_details_host"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textSize="16sp"/>
+			</LinearLayout>
+		</LinearLayout>
+
+		<View
+			android:layout_height="0.5dip"
+			android:layout_width="fill_parent"
+			android:background="@color/gray"/>
+
+		<LinearLayout
+			android:id="@+id/fragment_connection_details_params_layout"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:background="@color/gray_light_background"
+			android:paddingTop="7dp"
+			android:paddingBottom="7dp"
+			android:paddingRight="7dp"
+			android:orientation="horizontal">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:layout_weight="1.0"
+				android:gravity="left|center"
+				android:paddingTop="3dp"
+				android:paddingBottom="3dp"
+				android:paddingLeft="30dp"
+				android:text="@string/parameters"
+				android:textStyle="bold"
+				android:textSize="17sp" >
+			</TextView>
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingLeft="16dp"
+			android:paddingRight="16dp"
+			android:orientation="vertical">
+
+			<LinearLayout
+				android:paddingTop="5dp"
+				android:paddingBottom="5dp"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+
+				<TextView
+					android:text="@string/db_colon"
+					android:layout_width="250dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textSize="16sp"/>
+
+				<TextView
+					android:id="@+id/fragment_connection_details_db"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textSize="16sp"/>
+			</LinearLayout>
+
+			<LinearLayout
+				android:paddingTop="5dp"
+				android:paddingBottom="5dp"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+
+				<TextView
+					android:text="@string/server_colon"
+					android:layout_width="250dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textSize="16sp"/>
+
+				<TextView
+					android:id="@+id/fragment_connection_details_server"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textSize="16sp"/>
+			</LinearLayout>
+
+			<!--<LinearLayout-->
+				<!--android:paddingTop="5dp"-->
+				<!--android:paddingBottom="5dp"-->
+				<!--android:layout_width="match_parent"-->
+				<!--android:layout_height="wrap_content"-->
+				<!--android:orientation="horizontal">-->
+
+				<!--<TextView-->
+					<!--android:text="Объект: "-->
+					<!--android:layout_width="220dp"-->
+					<!--android:layout_height="wrap_content"-->
+					<!--android:layout_weight="1"-->
+					<!--android:textSize="16sp"/>-->
+				<!--<TextView-->
+					<!--android:id="@+id/fragment_connection_details_object"-->
+					<!--android:layout_width="match_parent"-->
+					<!--android:layout_height="wrap_content"-->
+					<!--android:layout_weight="1"-->
+					<!--android:textSize="16sp"-->
+					<!--android:text="00001 (ОАО Восход)"/>-->
+			<!--</LinearLayout>-->
+
+			<LinearLayout
+				android:paddingTop="5dp"
+				android:paddingBottom="5dp"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+
+				<TextView
+					android:text="@string/application_colon"
+					android:layout_width="250dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textSize="16sp"/>
+				<TextView
+					android:id="@+id/fragment_connection_details_application"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:textSize="16sp"/>
+			</LinearLayout>
+		</LinearLayout>
+	</LinearLayout>
+</ScrollView>

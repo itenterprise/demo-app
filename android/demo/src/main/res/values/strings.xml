@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="demo_app_name">Пользователи</string>
+    <string name="title_activity_details">Детально</string>
+    <string name="no_employees">Нет сотрудников</string>
+	<string name="no_connections">Нет подключений</string>
+    <string name="employees">Сотрудники</string>
+    <string name="employee">Сотрудник</string>
+	<string name="connection">Подключение</string>
+    <string name="connections_monitor">Монитор подключений</string>
+    <string name="employees_loading">Загрузка сотрудников…</string>
+	<string name="connections_loading">Загрузка подключений…</string>
+	<string name="connection_loading">Загрузка подключения…</string>
+	<string name="department_colon">Подразделение:</string>
+	<string name="phone_colon">Телефон:</string>
+	<string name="email_colon" translatable="false">E-mail:</string>
+	<string name="db_colon">БД:</string>
+	<string name="server_colon">Сервер:</string>
+	<string name="status_colon">Статус: </string>
+	<string name="sql_login_colon">Логин SQL:</string>
+	<string name="windows_login_colon">Логин Windows:</string>
+	<string name="it_login_colon">Логин IT:</string>
+	<string name="skype_colon" translatable="false">Skype:</string>
+	<string name="active_functions">Активные функции</string>
+	<string name="online">Онлайн</string>
+	<string name="user">Пользователь</string>
+	<string name="fio_colon">ФИО:</string>
+	<string name="pc_colon">ПЭВМ:</string>
+	<string name="parameters">Параметры</string>
+	<string name="application_colon">Приложение:</string>
+	<string name="no_info_about_connection">Нет информации о подключении</string>
+	<string name="need_update_connection_list">Необходимо обновить список подключений.</string>
+
+</resources>

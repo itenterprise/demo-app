@@ -1,0 +1,35 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="com.it.demo.ConnectionMonitorFragment">
+
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	              xmlns:tools="http://schemas.android.com/tools"
+	              android:orientation="vertical"
+	              android:layout_width="match_parent"
+	              android:layout_height="match_parent" >
+
+		<android.support.v4.widget.SwipeRefreshLayout
+			android:id="@+id/swipe_container"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+			<ListView
+				android:id="@+id/connections_list"
+				android:layout_width="match_parent"
+				android:layout_height="fill_parent" />
+		</android.support.v4.widget.SwipeRefreshLayout>
+		<TextView
+			android:id="@+id/no_connections_text_view"
+			android:visibility="gone"
+			android:padding="7dp"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:text="@string/no_connections"
+			android:layout_centerHorizontal="true"
+			android:gravity="center_horizontal"
+			android:textSize="18sp" />
+	</LinearLayout>
+
+</FrameLayout>

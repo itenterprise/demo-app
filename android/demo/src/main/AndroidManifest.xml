@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+    package="com.it.demo" >
+
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.NETWORK" />
+	<uses-permission android:name="android.permission.USE_CREDENTIALS" />
+
+    <application
+	    android:name=".Application"
+        android:allowBackup="true"
+        android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+        android:icon="@drawable/ic_demo_launcher"
+        android:label="@string/demo_app_name"
+        android:logo="@drawable/ic_demo_launcher"
+        android:theme="@style/AppTheme"
+        tools:replace="android:logo, android:icon, android:label">
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateHidden"
+            android:label="@string/demo_app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".DetailsActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateHidden"
+            android:label="@string/title_activity_details" >
+        </activity>
+	    <activity
+		    android:name="com.it.core.activity.LoginActivity"
+		    android:label="@string/title_activity_login"
+		    android:logo="@drawable/ic_logo"
+		    android:windowSoftInputMode="adjustResize|stateVisible" >
+	    </activity>
+	    <activity
+		    android:name="com.it.core.activity.NoConnectionToApplicationServerActivity"
+		    android:label="@string/demo_app_name"
+		    tools:replace="android:label" >
+	    </activity>
+	    <activity
+		    android:name="com.it.core.activity.SettingsActivity"
+		    android:logo="@drawable/ic_logo"
+		    android:label="@string/settings" >
+	    </activity>
+	    <activity
+		    android:name="com.it.core.activity.ChangePasswordActivity"
+		    android:label="@string/change_password"
+		    android:logo="@drawable/ic_logo" >
+	    </activity>
+	    <activity
+		    android:name="com.it.core.activity.AutoConfigActivity"
+		    android:label="@string/title_activity_auto_config" >
+		    <intent-filter>
+			    <action android:name="android.intent.action.VIEW" />
+			    <category android:name="android.intent.category.DEFAULT" />
+			    <category android:name="android.intent.category.BROWSABLE" />
+			    <data android:scheme="demo.2015.itconfigs" />
+		    </intent-filter>
+		    <intent-filter>
+			    <action android:name="android.intent.action.VIEW" />
+			    <category android:name="android.intent.category.DEFAULT" />
+			    <category android:name="android.intent.category.BROWSABLE" />
+			    <data android:scheme="demo.2015.itconfig" />
+		    </intent-filter>
+	    </activity>
+    </application>
+</manifest>

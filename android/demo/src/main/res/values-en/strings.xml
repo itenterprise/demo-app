@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="department_colon">Department:</string>
+	<string name="connection">Connection</string>
+	<string name="connections_loading">Connections loading…</string>
+	<string name="connections_monitor">Connection monitor</string>
+	<string name="db_colon">DB: </string>
+	<string name="employee">Employee</string>
+	<string name="employees">Employees</string>
+	<string name="employees_loading">Employees loading…</string>
+	<string name="no_connections">No connections</string>
+	<string name="no_employees">No employees</string>
+	<string name="status_colon">Status: </string>
+	<string name="title_activity_details">Details</string>
+	<string name="it_login_colon">IT login:</string>
+	<string name="sql_login_colon">SQL login:</string>
+	<string name="windows_login_colon">Windows login:</string>
+	<string name="phone_colon">Phone:</string>
+	<string name="online">Online</string>
+	<string name="active_functions">Active functions</string>
+	<string name="server_colon">Server:</string>
+	<string name="connection_loading">Connection loading…</string>
+	<string name="user">User</string>
+	<string name="fio_colon">Name:</string>
+	<string name="pc_colon">PC:</string>
+	<string name="parameters">Parameters</string>
+	<string name="application_colon">Application:</string>
+	<string name="need_update_connection_list">You need update connections list.</string>
+	<string name="no_info_about_connection">No info about connection</string>
+	<string name="demo_app_name">Users</string>
+</resources>

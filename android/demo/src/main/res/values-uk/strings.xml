@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="department_colon">Підрозділ:</string>
+	<string name="connection">Підключення</string>
+	<string name="connections_loading">Завантаження підключень…</string>
+	<string name="connections_monitor">Монітор підключень</string>
+	<string name="db_colon">БД: </string>
+	<string name="employee">Співробітник</string>
+	<string name="employees">Співробітники</string>
+	<string name="employees_loading">Завантаження співробітників…</string>
+	<string name="no_connections">Немає підключень</string>
+	<string name="no_employees">Немає співробітників</string>
+	<string name="status_colon">Статус: </string>
+	<string name="title_activity_details">Детально</string>
+	<string name="windows_login_colon">Логін Windows:</string>
+	<string name="sql_login_colon">Логін SQL:</string>
+	<string name="it_login_colon">Логін IT:</string>
+	<string name="phone_colon">Телефон:</string>
+	<string name="online">Онлайн</string>
+	<string name="active_functions">Активні функції</string>
+	<string name="server_colon">Сервер:</string>
+	<string name="connection_loading">Завантаження підключення…</string>
+	<string name="user">Користувач</string>
+	<string name="fio_colon">ПІБ:</string>
+	<string name="pc_colon">ПЕОМ:</string>
+	<string name="parameters">Параметри</string>
+	<string name="application_colon">Додаток:</string>
+	<string name="need_update_connection_list">Потрібно оновити список підключень.</string>
+	<string name="no_info_about_connection">Немає інформації про підключення</string>
+	<string name="demo_app_name">Користувачі</string>
+</resources>

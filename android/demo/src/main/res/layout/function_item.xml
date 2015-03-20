@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/list_item_top_padding"
+    android:paddingBottom="@dimen/list_item_bottom_padding"
+    android:paddingLeft="@dimen/list_item_left_padding"
+    android:paddingStart="@dimen/list_item_left_padding"
+    android:paddingRight="@dimen/list_item_right_padding"
+    android:paddingEnd="@dimen/list_item_right_padding"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/function_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Функция"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/function_item_date"
+            android:text="Дата"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+	        android:textColor="@color/darker_gray"/>
+    </LinearLayout>
+
+	<ImageView
+		android:layout_width="20sp"
+		android:layout_height="20sp"
+		android:layout_gravity="center_vertical"
+		android:src="@drawable/ic_action_next_item" />
+</LinearLayout>
