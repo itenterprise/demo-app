@@ -19,11 +19,14 @@ import android.preference.RingtonePreference;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.zxing.client.android.CaptureActivity;
 import com.it.core.R;
 import com.it.core.application.ApplicationBase;
+import com.it.core.model.WebServiceAddress;
+import com.it.core.serialization.SerializeHelper;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -49,6 +52,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 	private static final int WEB_SERVICE_ADDRESS_REQUEST_CODE = 1;
 
 	public static final String WEB_SERVICE_URL_PREFERENCE = "webServiceAddressPref";
+	public static final String WEB_SERVICES_LIST_KEY = "WebServiceAddressList";
 
 	private String mOldUrl;
 
@@ -134,6 +138,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 			String newUrl = null;
 			if (requestCode == SCAN_BARCODE_REQUEST_CODE) {
 				newUrl = data.getStringExtra("SCAN_RESULT");
+				updateWebServiceUrlList(newUrl);
 			}
 			if (requestCode == WEB_SERVICE_ADDRESS_REQUEST_CODE) {
 				newUrl = data.getStringExtra(SettingsActivity.WEB_SERVICE_URL_PREFERENCE);
@@ -261,6 +266,30 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 		}
 		putStringToPreferences(WEB_SERVICE_URL_PREFERENCE, url);
 		refreshPreferenceSummary(WEB_SERVICE_URL_PREFERENCE, url);
+	}
+
+	/**
+	 * Обновить текущий адрес веб-сервиса в списке
+	 * @param newUrl Новый адрес
+	 */
+	private void updateWebServiceUrlList(String newUrl) {
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ApplicationBase.getInstance());
+		String jsonList = sharedPref.getString(WEB_SERVICES_LIST_KEY, "");
+		ArrayList <WebServiceAddress> addresses = SerializeHelper.deserializeList(jsonList, WebServiceAddress.class);
+		if (addresses == null || addresses.isEmpty()) {
+			return;
+		}
+		boolean updated = false;
+		for (WebServiceAddress address: addresses) {
+			if (address.isCurrent()) {
+				address.setUrl(newUrl);
+				updated = true;
+				break;
+			}
+		}
+		if (updated) {
+			sharedPref.edit().putString(SettingsActivity.WEB_SERVICES_LIST_KEY, SerializeHelper.serialize(addresses)).apply();
+		}
 	}
 
 	private void putStringToPreferences(String key, String value) {

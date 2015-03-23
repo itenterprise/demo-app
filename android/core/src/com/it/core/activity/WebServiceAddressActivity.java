@@ -32,8 +32,6 @@ import java.util.TreeSet;
 
 public class WebServiceAddressActivity extends Activity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, ActionMode.Callback {
 
-	private static final String WEB_SERVICES_LIST_KEY = "WebServiceAddressList";
-
 	private SharedPreferences mPreferences;
 	private ArrayList<WebServiceAddress> mAddresses;
 	private ListView mListView;
@@ -48,7 +46,7 @@ public class WebServiceAddressActivity extends Activity implements AdapterView.O
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(ApplicationBase.getInstance());
-		String jsonList = mPreferences.getString(WEB_SERVICES_LIST_KEY, "");
+		String jsonList = mPreferences.getString(SettingsActivity.WEB_SERVICES_LIST_KEY, "");
 		mAddresses = SerializeHelper.deserializeList(jsonList, WebServiceAddress.class);
 
 		if (mAddresses == null || mAddresses.isEmpty()) {
@@ -224,7 +222,7 @@ public class WebServiceAddressActivity extends Activity implements AdapterView.O
 	 * Обновить адреса в настройках
 	 */
 	private void refreshAddressPreferences() {
-		mPreferences.edit().putString(WEB_SERVICES_LIST_KEY, SerializeHelper.serialize(mAddresses)).apply();
+		mPreferences.edit().putString(SettingsActivity.WEB_SERVICES_LIST_KEY, SerializeHelper.serialize(mAddresses)).apply();
 	}
 
 	/**
