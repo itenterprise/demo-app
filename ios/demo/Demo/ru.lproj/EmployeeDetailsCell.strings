@@ -1,0 +1,21 @@
+
+/* Class = "IBUILabel"; text = "Домашенко Олена Леонідівна"; ObjectID = "EBG-2h-3pg"; */
+"EBG-2h-3pg.text" = "Домашенко Олена Леонідівна";
+
+/* Class = "IBUILabel"; text = "Онлайн"; ObjectID = "FrU-eN-k8H"; */
+"FrU-eN-k8H.text" = "Онлайн";
+
+/* Class = "IBUILabel"; text = "Телефон:"; ObjectID = "ZPv-Zg-oIN"; */
+"ZPv-Zg-oIN.text" = "Телефон:";
+
+/* Class = "IBUITextView"; text = "585-90-70"; ObjectID = "cSX-wK-gkz"; */
+"cSX-wK-gkz.text" = "585-90-70";
+
+/* Class = "IBUITextView"; text = "buh@it.ua"; ObjectID = "fPd-jt-xvX"; */
+"fPd-jt-xvX.text" = "buh@it.ua";
+
+/* Class = "IBUILabel"; text = "E-mail:"; ObjectID = "ohb-ZT-nXy"; */
+"ohb-ZT-nXy.text" = "E-mail:";
+
+/* Class = "IBUILabel"; text = "Подразделение"; ObjectID = "wkg-Hx-iKi"; */
+"wkg-Hx-iKi.text" = "Подразделение";

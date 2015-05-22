@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "-[ITEmployeeViewController filterContentForSearchText:scope:]:ITEmployeeViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[self.employees filteredArrayUsingPredicate:resultPredicate]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ITConnectionDetailsViewController loadDetails]:ITConnectionDetailsViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[self delegate]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ITEmployeeViewController tableView:cellForRowAtIndexPath:]:ITEmployeeViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[self actualItems]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "__50-[ITEmployeeDetailsViewController loadConnections]_block_invoke:ITEmployeeDetailsViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ITEmployeeCell setOnline]:ITEmployeeCell.m">
+      </ContextState>
+      <ContextState
+         contextName = "+[CrashReport createReport:]:CrashReport.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[NSUserDefaults standardUserDefaults]">
+            </PersistentString>
+            <PersistentString
+               value = "[exception name]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ITConnectionDetailsViewController updateUI]:ITConnectionDetailsViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.parentViewController">
+            </PersistentString>
+            <PersistentString
+               value = "self.connectionItem.statusColor">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ITEmployeeViewController actualItems]:ITEmployeeViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ITEmployeeViewController tableView:heightForRowAtIndexPath:]:ITEmployeeViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[self actualItems]">
+            </PersistentString>
+            <PersistentString
+               value = "indexPath">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ITApplicationManager serviceManager]:ITApplicationManager.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ITEmployeeCell updateUI]:ITEmployeeCell.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "CGRectMake(CGRectGetMinX(self.fioLabel.frame), currentY, width, fioSize.height)">
+            </PersistentString>
+            <PersistentString
+               value = "self.fioLabel.frame.size.height">
+            </PersistentString>
+            <PersistentString
+               value = "self.nkdkLabel.frame">
+            </PersistentString>
+            <PersistentString
+               value = "self.fioLabel.text">
+            </PersistentString>
+            <PersistentString
+               value = "[UIView currentScreenSize]">
+            </PersistentString>
+            <PersistentString
+               value = "self.departmentLabel.text">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "__43-[ITEmployeeViewController reloadEmployees]_block_invoke:ITEmployeeViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ITEmployeeViewController updateUI]:ITEmployeeViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ITEmployeeViewController tableView:numberOfRowsInSection:]:ITEmployeeViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[self actualItems].count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ITApplicationManager isLoggedIn]:ITApplicationManager.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[UILabel(calcSize) calcSize:]:UILabel+calcSize.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.font">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ITEmployeeViewController viewDidLoad]:ITEmployeeViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ITServiceManager exec:withArgs:callback:]:ITServiceManager.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "args">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "uncaughtExceptionHandler:AppDelegate.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[NSProcessInfo processInfo].hostInfo">
+            </PersistentString>
+            <PersistentString
+               value = "[UIDevice currentDevice]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ITDemoManager updateAccountInfo]:ITDemoManager.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[self userId]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ITEmployeeDetailsViewController loadConnections]:ITEmployeeDetailsViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ITEmployeeViewController prepareForSegue:sender:]:ITEmployeeViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[self actualItems]">
+            </PersistentString>
+            <PersistentString
+               value = "[self actualTableView]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ITEmployeeViewController actualTableView]:ITEmployeeViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.searchDisplayController">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ITEmployeeDetailsViewController updateUI]:ITEmployeeDetailsViewController.m">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

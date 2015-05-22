@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PreferenceSpecifiers</key>
+	<array>
+		<dict>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
+			<key>Title</key>
+			<string>URL веб-сервиса</string>
+			<key>DefaultValue</key>
+			<string>https://demo-mobile.it.ua/ws/webservice.asmx</string>
+			<key>Key</key>
+			<string>serviceurl</string>
+			<key>KeyboardType</key>
+			<string>URL</string>
+			<key>AutocorrectionType</key>
+			<string>No</string>
+			<key>AutocapitalizationType</key>
+			<string>None</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTitleValueSpecifier</string>
+			<key>Title</key>
+			<string>Версия</string>
+			<key>DefaultValue</key>
+			<string>2015.06.01</string>
+			<key>Key</key>
+			<string>version</string>
+		</dict>
+	</array>
+	<key>StringsTable</key>
+	<string>Root</string>
+</dict>
+</plist>

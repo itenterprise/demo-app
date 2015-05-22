@@ -1,0 +1,60 @@
+
+/* Class = "IBUILabel"; text = "Сервер:"; ObjectID = "3jE-qd-IPf"; */
+"3jE-qd-IPf.text" = "Сервер:";
+
+/* Class = "IBUINavigationItem"; title = "Подключение"; ObjectID = "84W-Qq-wZq"; */
+"84W-Qq-wZq.title" = "Подключение";
+
+/* Class = "IBUINavigationItem"; title = "Монитор подключений"; ObjectID = "D7o-lk-9MG"; */
+"D7o-lk-9MG.title" = "Монитор подключений";
+
+/* Class = "IBUILabel"; text = "БД:"; ObjectID = "MDL-Sk-liQ"; */
+"MDL-Sk-liQ.text" = "БД:";
+
+/* Class = "IBUILabel"; text = "Приложение:"; ObjectID = "NPq-GI-VQf"; */
+"NPq-GI-VQf.text" = "Приложение:";
+
+/* Class = "IBUINavigationItem"; title = "Сотрудники"; ObjectID = "RAH-E9-9Bp"; */
+"RAH-E9-9Bp.title" = "Сотрудники";
+
+/* Class = "IBUILabel"; text = "ФИО:"; ObjectID = "Rvd-Wm-cqh"; */
+"Rvd-Wm-cqh.text" = "ФИО:";
+
+/* Class = "IBUIBarButtonItem"; title = "Пользователь"; ObjectID = "TwF-S4-V0b"; */
+"TwF-S4-V0b.title" = "Пользователь";
+
+/* Class = "IBUILabel"; text = "Логин IT:"; ObjectID = "VyX-Tm-ail"; */
+"VyX-Tm-ail.text" = "Логин IT:";
+
+/* Class = "IBUIBarButtonItem"; title = "Монитор"; ObjectID = "WqM-xh-xMZ"; */
+"WqM-xh-xMZ.title" = "Монитор";
+
+/* Class = "IBUIBarButtonItem"; title = "Параметры"; ObjectID = "bxv-MJ-LuY"; */
+"bxv-MJ-LuY.title" = "Параметры";
+
+/* Class = "IBUILabel"; text = "Монитор подключений"; ObjectID = "cNb-r5-XIH"; */
+"cNb-r5-XIH.text" = "Монитор подключений";
+
+/* Class = "IBUILabel"; text = "SQL login:"; ObjectID = "e2q-Rq-6pk"; */
+"e2q-Rq-6pk.text" = "Логин SQL:";
+
+/* Class = "IBUILabel"; text = "Статус:"; ObjectID = "hYg-e1-CkD"; */
+"hYg-e1-CkD.text" = "Статус:";
+
+/* Class = "IBUILabel"; text = "ПЭВМ:"; ObjectID = "iqx-sR-Tdg"; */
+"iqx-sR-Tdg.text" = "ПЭВМ:";
+
+/* Class = "IBUILabel"; text = "Сотрудники"; ObjectID = "l6h-Hv-acw"; */
+"l6h-Hv-acw.text" = "Сотрудники";
+
+/* Class = "IBUILabel"; text = "WinLogin:"; ObjectID = "sDe-cp-bbR"; */
+"sDe-cp-bbR.text" = "Логин Windows:";
+
+/* Class = "IBUINavigationItem"; title = "Сотрудник"; ObjectID = "wAF-9t-kre"; */
+"wAF-9t-kre.title" = "Сотрудник";
+
+/* Class = "IBUILabel"; text = "Выход"; ObjectID = "yFk-DA-W9N"; */
+"yFk-DA-W9N.text" = "Выход";
+
+/* Class = "IBUILabel"; text = "Сменить пароль"; ObjectID = "yOu-RF-awZ"; */
+"yOu-RF-awZ.text" = "Сменить пароль";
