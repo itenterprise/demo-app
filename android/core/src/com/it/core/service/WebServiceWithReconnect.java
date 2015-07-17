@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.it.core.R;
 import com.it.core.application.ApplicationBase;
+import com.it.core.eds.EdsRepository;
 import com.it.core.login.LoginService;
 import com.it.core.login.OnLoginCompleted;
 import com.it.core.model.UserInfo;
@@ -55,7 +56,11 @@ public class WebServiceWithReconnect extends WebServiceBase {
 				public void onFail() {
 					UserInfo.removeTicketAndName();
 					UserInfo.removeCredentials();
-					ApplicationBase.getInstance().navigateToLogin();
+					ApplicationBase applicationBase = ApplicationBase.getInstance();
+					applicationBase.navigateToLogin();
+					if (applicationBase.isUsingEds()) {
+						EdsRepository.getInstance().clearEdsCredentials();
+					}
 				}
 
 				@Override

@@ -13,24 +13,22 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.it.core.R;
 import com.it.core.adapter.WebServiceAddressAdapter;
 import com.it.core.application.ApplicationBase;
 import com.it.core.model.WebServiceAddress;
+import com.it.core.network.NetworkParams;
+import com.it.core.network.OnGetPingResponse;
 import com.it.core.notifications.Dialog;
 import com.it.core.serialization.SerializeHelper;
+import com.it.core.tools.OnWebServicesChanged;
 import com.it.core.tools.PreferenceHelper;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.TreeSet;
 
-public class WebServiceAddressActivity extends Activity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, ActionMode.Callback {
+public class WebServiceAddressActivity extends Activity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, ActionMode.Callback, OnWebServicesChanged {
 
 	private SharedPreferences mPreferences;
 	private ArrayList<WebServiceAddress> mAddresses;
@@ -46,12 +44,13 @@ public class WebServiceAddressActivity extends Activity implements AdapterView.O
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(ApplicationBase.getInstance());
-		String jsonList = mPreferences.getString(SettingsActivity.WEB_SERVICES_LIST_KEY, "");
+		String jsonList = mPreferences.getString(SettingsActivityBase.WEB_SERVICES_LIST_KEY, "");
 		mAddresses = SerializeHelper.deserializeList(jsonList, WebServiceAddress.class);
 
 		if (mAddresses == null || mAddresses.isEmpty()) {
 			mAddresses = new ArrayList<WebServiceAddress>();
 			mAddresses.add(new WebServiceAddress(getString(R.string.default_), PreferenceHelper.getWebServiceUrl(), true));
+			PreferenceHelper.putWebserviceAddresses(mAddresses);
 		}
 
 		mListView = (ListView)findViewById(R.id.addresses_list);
@@ -63,12 +62,14 @@ public class WebServiceAddressActivity extends Activity implements AdapterView.O
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		for (WebServiceAddress address: mAddresses) {
-			address.setIsCurrent(false);
-		}
-		mAddresses.get(position).setIsCurrent(true);
-		refreshAddressPreferences();
-		setResultUrl(mAddresses.get(position).getUrl());
+		PreferenceHelper.selectWebServiceAddress(position, null);
+//
+//		for (WebServiceAddress address: mAddresses) {
+//			address.setIsCurrent(false);
+//		}
+//		mAddresses.get(position).setIsCurrent(true);
+//		refreshAddressPreferences();
+//		setResultUrl(mAddresses.get(position).getUrl());
 		finish();
 	}
 
@@ -102,9 +103,19 @@ public class WebServiceAddressActivity extends Activity implements AdapterView.O
 		if (id == R.id.action_add_address) {
 			Dialog.showSetDialog(this, this.getString(R.string.new_address), "", "", this.getString(R.string.title), this.getString(R.string.address), new Dialog.OnValueSetListener() {
 				@Override
-				public void onSet(DialogInterface dialog, String title, String url) {
-					setAddress(title, url, true);
+				public void onSet(DialogInterface dialog, final String title, final String url) {
+					PreferenceHelper.addWebServiceAddress(WebServiceAddressActivity.this, new WebServiceAddress(title, url), WebServiceAddressActivity.this, true);
+
+//					NetworkParams.pingWebServices(WebServiceAddressActivity.this, url, new OnGetPingResponse() {
+//						@Override
+//						public void onGetPingResponse(boolean response) {
+//							onUrlChecked(response, title, url, true);
+//						}
+//					});
 				}
+
+				@Override
+				public void onCancel(DialogInterface dialog) { }
 			});
 			return true;
 		}
@@ -133,12 +144,22 @@ public class WebServiceAddressActivity extends Activity implements AdapterView.O
 			Dialog.showSetDialog(this, getString(R.string.address_editing), address.getTitle(), address.getUrl(),
 					this.getString(R.string.title), getString(R.string.address), new Dialog.OnValueSetListener() {
 				@Override
-				public void onSet(DialogInterface dialog, String title, String url) {
+				public void onSet(DialogInterface dialog, final String title, final String url) {
 					if (!address.getUrl().equals(url) || !address.getTitle().equals(title)) {
-						setAddress(title, url, false);
+//						NetworkParams.pingWebServices(WebServiceAddressActivity.this, url, new OnGetPingResponse() {
+//							@Override
+//							public void onGetPingResponse(boolean response) {
+//								onUrlChecked(response, title, url, false);
+//								mSelectedPosition = -1;
+//							}
+//						});
+						PreferenceHelper.editWebServiceAddress(WebServiceAddressActivity.this, new WebServiceAddress(title, url,
+								address.isCurrent()), mSelectedPosition, WebServiceAddressActivity.this, true);
 					}
-					mSelectedPosition = -1;
 				}
+
+				@Override
+				public void onCancel(DialogInterface dialog) { }
 			});
 			actionMode.finish();
 			return true;
@@ -149,8 +170,9 @@ public class WebServiceAddressActivity extends Activity implements AdapterView.O
 					false, getString(R.string.yes), getString(R.string.no), new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							removeAddress();
-							mSelectedPosition = -1;
+							PreferenceHelper.removeWebServiceAddress(mSelectedPosition, WebServiceAddressActivity.this);
+//							removeAddress();
+//							mSelectedPosition = -1;
 						}
 					}, null);
 			actionMode.finish();
@@ -165,76 +187,93 @@ public class WebServiceAddressActivity extends Activity implements AdapterView.O
 		mListView.setItemChecked(mSelectedPosition, false);
 	}
 
-	/**
-	 * Задать адрес
-	 * @param title Название
-	 * @param url Адрес
-	 * @param isNew Новый или отредактированный
-	 */
-	private void setAddress(String title, String url, boolean isNew) {
-		// Проверить задан ли адрес
-		if (url.isEmpty()) {
-			Dialog.showPopup(this, R.string.cant_add_empty_address);
-			return;
-		}
-		// Проверить на наличие такого же адреса
-		for (int i = 0; i < mAddresses.size(); i++) {
-			if (mAddresses.get(i).getUrl().equals(url) &&
-					(isNew || i != mSelectedPosition)) {
-				Dialog.showPopup(this, R.string.address_already_at_list);
-				return;
-			}
-		}
-		if (isNew) {
-			// Добавить адрес
-			mAddresses.add(new WebServiceAddress(title, url));
-		} else {
-			// Отредактировать адрес
-			WebServiceAddress address = mAddresses.get(mSelectedPosition);
-			address.setTitle(title);
-			address.setUrl(url);
-			// Если адрес является текущим, то необходимо установить в результат Activity (чтоб обновить в SettingsActivity)
-			if (address.isCurrent()) {
-				setResultUrl(url);
-			}
-		}
-		// Обновить адреса в списке и настройках
-		refreshAddresses();
-	}
+//	/**
+//	 * Проверка корректности ссылки
+//	 * @param isCorrect Признак корректности ссылки
+//	 * @param title Название (псевдоним) сервера приложений
+//	 * @param url Адрес сервера приложений
+//	 * @param isNew Признак добавления нового значения
+//	 */
+//	private void onUrlChecked(boolean isCorrect, String title, String url, boolean isNew) {
+//		if (!isCorrect) {
+//			Dialog.showPopup(this, R.string.no_connection_with_server, R.string.incorrect_link);
+//			return;
+//		}
+//		setAddress(title, url, isNew);
+//	}
 
-	/**
-	 * Удалить адрес
- 	 */
-	private void removeAddress() {
-		mAddresses.remove(mSelectedPosition);
-		refreshAddresses();
-	}
+//	/**
+//	 * Задать адрес
+//	 * @param title Название
+//	 * @param url Адрес
+//	 * @param isNew Новый или отредактированный
+//	 */
+//	private void setAddress(String title, String url, boolean isNew) {
+//		// Проверить задан ли адрес
+//		if (url.isEmpty()) {
+//			Dialog.showPopup(this, R.string.cant_add_empty_address);
+//			return;
+//		}
+//		// Проверить на наличие такого же адреса
+//		for (int i = 0; i < mAddresses.size(); i++) {
+//			if (mAddresses.get(i).getUrl().equals(url) &&
+//					(isNew || i != mSelectedPosition)) {
+//				Dialog.showPopup(this, R.string.address_already_at_list);
+//				return;
+//			}
+//		}
+//		if (isNew) {
+//			// Добавить адрес
+//			mAddresses.add(new WebServiceAddress(title, url));
+//		} else {
+//			// Отредактировать адрес
+//			WebServiceAddress address = mAddresses.get(mSelectedPosition);
+//			address.setTitle(title);
+//			address.setUrl(url);
+//			// Если адрес является текущим, то необходимо установить в результат Activity (чтоб обновить в SettingsActivity)
+//			if (address.isCurrent()) {
+//				setResultUrl(url);
+//			}
+//		}
+//		// Обновить адреса в списке и настройках
+//		refreshAddresses();
+//	}
 
-	/**
-	 * Обновить адреса в списке и настройках
-	 */
-	private void refreshAddresses() {
-		refreshAddressPreferences();
-		refreshAddressList();
-	}
+//	/**
+//	 * Удалить адрес
+// 	 */
+//	private void removeAddress() {
+//		mAddresses.remove(mSelectedPosition);
+//		refreshAddresses();
+//	}
 
-	/**
-	 * Обновить адреса в настройках
-	 */
-	private void refreshAddressPreferences() {
-		mPreferences.edit().putString(SettingsActivity.WEB_SERVICES_LIST_KEY, SerializeHelper.serialize(mAddresses)).apply();
-	}
+//	/**
+//	 * Обновить адреса в списке и настройках
+//	 */
+//	private void refreshAddresses() {
+//		refreshAddressPreferences();
+//		refreshAddressList();
+//	}
+
+//	/**
+//	 * Обновить адреса в настройках
+//	 */
+//	private void refreshAddressPreferences() {
+//		mPreferences.edit().putString(SettingsActivityBase.WEB_SERVICES_LIST_KEY, SerializeHelper.serialize(mAddresses)).apply();
+//	}
 
 	/**
 	 * Обновить список адресов
 	 */
 	private void refreshAddressList() {
-		if (mAdapter != null) {
-			mAdapter.notifyDataSetChanged();
-		} else {
-			mAdapter = new WebServiceAddressAdapter(this, mAddresses);
-			mListView.setAdapter(mAdapter);
-		}
+//		if (mAdapter != null) {
+//			mAdapter.notifyDataSetChanged();
+//		} else {
+//			mAdapter = new WebServiceAddressAdapter(this, mAddresses);
+//			mListView.setAdapter(mAdapter);
+//		}
+		mAdapter = new WebServiceAddressAdapter(this, mAddresses);
+		mListView.setAdapter(mAdapter);
 	}
 
 	/**
@@ -243,7 +282,14 @@ public class WebServiceAddressActivity extends Activity implements AdapterView.O
 	 */
 	private void setResultUrl(String url) {
 		Intent data = new Intent();
-		data.putExtra(SettingsActivity.WEB_SERVICE_URL_PREFERENCE, url);
+		data.putExtra(SettingsActivityBase.WEB_SERVICE_URL_PREFERENCE, url);
 		setResult(RESULT_OK, data);
+	}
+
+	@Override
+	public void onWebServicesChanged(ArrayList<WebServiceAddress> addresses) {
+		mAddresses = addresses;
+		refreshAddressList();
+		mSelectedPosition = -1;
 	}
 }

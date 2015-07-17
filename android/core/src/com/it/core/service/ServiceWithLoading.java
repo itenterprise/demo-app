@@ -72,4 +72,9 @@ public class ServiceWithLoading implements IWebService {
 	public void setSkipErrors(boolean skipErrors) {
 		service.setSkipErrors(skipErrors);
 	}
+
+	@Override
+	public void setIsAnonymous(boolean isAnonymous) {
+		service.setIsAnonymous(isAnonymous);
+	}
 }

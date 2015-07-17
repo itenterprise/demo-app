@@ -1,6 +1,7 @@
 package com.it.core.activity;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import com.it.core.application.ApplicationBase;
 import com.it.core.fragments.SlidingMenuFragment;
@@ -18,7 +19,9 @@ import com.it.core.model.UserInfo.Credentials;
 import com.it.core.R;
 import com.it.core.service.ServiceFactory;
 import com.it.core.tools.KeyboardHelper;
+import com.it.core.tools.LocaleHelper;
 import com.it.core.tools.PreferenceHelper;
+import com.it.core.tools.UpdateHelper;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import android.annotation.SuppressLint;
@@ -32,12 +35,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -96,14 +101,14 @@ public class ActivityBase extends FragmentActivity implements SlidingMenuHelper,
 	private ArrayList<SideMenuItem> mMenuItems;
 
 	/**
-        Выезжающее меню
+		Выезжающее меню
 	 */
 	private SlidingMenu slidingMenu;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		LocaleHelper.refreshLocale();
 		PreferenceHelper.setApplicationVersion();
 		String value = PreferenceHelper.getWebServiceUrl();
 		if (value.isEmpty()) {
@@ -117,12 +122,12 @@ public class ActivityBase extends FragmentActivity implements SlidingMenuHelper,
 		}
 	}
 
-	protected void onUrlNotSetUp(){
-		Intent i = new Intent(this, SettingsActivity.class);
+	protected void onUrlNotSetUp() {
+		Intent i = new Intent(this, SettingsActivityBase.class);
 		startActivityForResult(i, REQUEST_CODE_FIRST_URL_SET);
 	}
 
-	private void checkItVersion(){
+	private void checkItVersion() {
 		if (!ApplicationBase.getInstance().isInited() && needsCheckVersion()) {
 			ServiceFactory.ServiceParams params = new ServiceFactory.ServiceParams(this);
 			params.setProgressMessage(getString(R.string.version_check));
@@ -137,9 +142,10 @@ public class ActivityBase extends FragmentActivity implements SlidingMenuHelper,
 			final String verFinal = ver;
 			service.ExecObject("INIT", new Object(){
 				public final String module = ApplicationBase.getInstance().getSystemModule();
-				public final String obj = ApplicationBase.getInstance().getCurrentObject();
+				public final String project = ApplicationBase.getInstance().getCurrentObject();
 				public final String version = verFinal;
 				public final String appId = ApplicationBase.getInstance().getApplicationID();
+				public final String os = "Android";
 			}, InitResult.class, this);
 		}
 		else {
@@ -188,6 +194,12 @@ public class ActivityBase extends FragmentActivity implements SlidingMenuHelper,
 
 							}
 						}
+						break;
+					case InitResult.NEED_UPDATE_APP:
+						UpdateHelper.updateApplication(ActivityBase.this, initResult.getUpdateFileName());
+						return;
+					default:
+						return;
 				}
 				builder.setMessage(message);
 				builder.setCancelable(false);
@@ -207,8 +219,6 @@ public class ActivityBase extends FragmentActivity implements SlidingMenuHelper,
 			}
 		}
 	};
-
-
 
 	/**
 	 * Проверить необходимость входа в систему
@@ -412,7 +422,7 @@ public class ActivityBase extends FragmentActivity implements SlidingMenuHelper,
 			startActivity(i);
 			break;
 		case SETTINGS_MENU_ITEM:
-			i = new Intent(this, SettingsActivity.class);
+			i = new Intent(this, SettingsActivityBase.class);
 			startActivityForResult(i, REQUEST_CODE_URL_CHANGED);
 			break;
 		}
@@ -424,23 +434,29 @@ public class ActivityBase extends FragmentActivity implements SlidingMenuHelper,
 	 * @param resultCode
 	 * @param data
 	 */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// Из activity исключительной ситуации
 		if (requestCode == REQUEST_CODE_EXCEPTION_RETRY) {
 			checkItVersion();
 			return;
 		}
-	    // Из настроек. При первом запуске (когда не задан адрес сервера)
-	    if (requestCode == REQUEST_CODE_FIRST_URL_SET) {
-		    navigateToLogin();
-	    }
+		// Из настроек. При первом запуске (когда не задан адрес сервера)
+		if (requestCode == REQUEST_CODE_FIRST_URL_SET) {
+			navigateToLogin();
+		}
 		// Из настроек. Изменилась ссылка
 		if (requestCode == REQUEST_CODE_URL_CHANGED && resultCode == RESULT_OK) {
-			onUrlChanged();
+			boolean urlChanged = data.getBooleanExtra(SettingsActivityBase.WEB_SERVICE_URL_CHANGED_KEY, false);
+			boolean localeChanged = data.getBooleanExtra(SettingsActivityBase.LOCALE_CHANGED_KEY, false);
+			if (urlChanged) {
+				onUrlChanged();
+			} else if (localeChanged) {
+				this.recreate();
+			}
 		}
-        super.onActivityResult(requestCode, resultCode, data);
-    }
+		super.onActivityResult(requestCode, resultCode, data);
+	}
 
 	protected void onUrlChanged() {
 		LoginService login = new LoginService(this);
@@ -539,7 +555,7 @@ public class ActivityBase extends FragmentActivity implements SlidingMenuHelper,
 	public void onNavigationDrawerItemSelected(SideMenuItem item) {
 		switch (item.Id) {
 			case SETTINGS_MENU_ITEM:
-				Intent i = new Intent(this, SettingsActivity.class);
+				Intent i = new Intent(this, SettingsActivityBase.class);
 				startActivityForResult(i, REQUEST_CODE_URL_CHANGED);
 				return;
 		}

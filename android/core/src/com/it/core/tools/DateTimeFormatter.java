@@ -1,6 +1,7 @@
 package com.it.core.tools;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.text.format.Time;
 
 import com.it.core.R;
@@ -23,7 +24,6 @@ public class DateTimeFormatter {
     private static final String dateExtFormat = "dd.MM.yyyy";
     private static final String dateTimeExtFormat = "dd.MM.yyyy HH:mm";
     private static final String timeDateExtFormat = "HH:mm, dd.MM.yyyy";
-//	private static final String timeDateExtFormat = "HH:mm, dd.MM.yyyy";
 
     /**
      * Формат даты/времени
@@ -145,22 +145,26 @@ public class DateTimeFormatter {
         return String.format("%s:%s", getInTimeFormat(hour), getInTimeFormat(minute));
     }
 
-    /**
-     * Конвертировать строку определенного формата в дату
-     * @param stringDate Строка даты
-     * @param format Формат
-     * @return Дата
-     */
-    public static Date getDateFromString(String stringDate, Format format){
-        SimpleDateFormat stringFormat = new SimpleDateFormat(getStringFormat(format));
-        Date date = new Date();
-        try {
-            date = stringFormat.parse(stringDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
-    }
+	/**
+	 * Конвертировать строку определенного формата в дату
+	 * @param stringDate Строка даты
+	 * @param format Формат
+	 * @return Дата
+	 */
+	@Nullable
+	public static Date getDateFromString(String stringDate, Format format) {
+		if (stringDate == null || stringDate.isEmpty()) {
+			return null;
+		}
+		SimpleDateFormat stringFormat = new SimpleDateFormat(getStringFormat(format));
+		Date date = new Date();
+		try {
+			date = stringFormat.parse(stringDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return date;
+	}
 
     /**
      * Конвертировать число в временной формат XX

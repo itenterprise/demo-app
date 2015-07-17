@@ -95,4 +95,22 @@
 	<string name="address_removing">Address removing</string>
 	<string name="address_editing">Address editing</string>
 	<string name="address_already_at_list">Address is already at list.</string>
+	<string name="new_version_downloading">New version downloading…</string>
+	<string name="web_services_url_validation">Validation web service URL…</string>
+	<string name="scanned_link_not_correct">Scanned link is not correct</string>
+	<string name="incorrect_link">Incorrect link</string>
+	<string name="path_to_private_key_not_specified_or_invalid">The path to the private key file is invalid or not specified</string>
+	<string name="private_key_password_not_specified">Private key password is not specified</string>
+	<string name="invalid_path_to_file_you_wont_sign">Invalid path to the file you want to sign</string>
+	<string name="signing_file_failed">Signing file failed</string>
+	<string name="login">Login</string>
+	<string name="password">Password</string>
+	<string name="remember">Remember</string>
+	<string name="you_must_set_password">You must set password</string>
+	<string name="eds_creating">EDS creating</string>
+	<string name="eds_creating_fail">EDS creating fail</string>
+	<string name="enter_password_of_private_key">Enter private key password</string>
+	<string name="app_language">Application language</string>
+	<string name="eds_verifying">EDS verifying</string>
+	<string name="init_eds_library_error">Initialization EDS library error</string>
 </resources>

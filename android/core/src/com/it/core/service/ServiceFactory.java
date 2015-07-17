@@ -21,17 +21,18 @@ public class ServiceFactory {
 	 * @param serviceParams Параметры объекта
 	 * @return Объект для доступа к веб-сервисам
 	 */
-	public static IService createService(ServiceParams serviceParams){
+	public static IService createService(ServiceParams serviceParams) {
 		IWebService service = new WebServiceWithReconnect();
 		Activity activity = serviceParams.getActivity();
         ProgressParams progressParams = serviceParams.getProgressParams();
-		if (progressParams != null){
+		if (progressParams != null) {
 			service = new ServiceWithLoading(service, activity, progressParams);
 		}
-		if (serviceParams.getCache()){
+		if (serviceParams.getCache()) {
 			service = new ServiceWithCaching(service, activity);
 		}
 		service.setSkipErrors(serviceParams.isSkipErrors());
+		service.setIsAnonymous(serviceParams.isAnonymous());
 		return service;
 	}
 
@@ -39,7 +40,7 @@ public class ServiceFactory {
 	 * Создать объект для доступа к веб-сервисам
 	 * @return Объект для доступа к веб-сервисам
 	 */
-	public static IService createService(){
+	public static IService createService() {
 		return new WebServiceWithReconnect();
 	}
 
@@ -48,7 +49,7 @@ public class ServiceFactory {
      * @param activity Активность с которой пытаемся выполнить вход
      * @return Объект для выполнения входа
      */
-	public static ILoginService createLoginService(Activity activity){
+	public static ILoginService createLoginService(Activity activity) {
 		return new LoginService(activity);
 	}
 
@@ -57,7 +58,7 @@ public class ServiceFactory {
 	 * @param activity Активность с которой пытаемся изменить пароль
 	 * @return Объект для изменения пароля
 	 */
-	public static IChangePasswordService createChangePasswordService(Activity activity){
+	public static IChangePasswordService createChangePasswordService(Activity activity) {
 		return new ChangePasswordService(activity);
 	}
 
@@ -66,7 +67,7 @@ public class ServiceFactory {
      * @param activity Активность с которой пытаемся обновить сессию
      * @return Объект для обновления сессии
      */
-    public static ISessionUpdateService createUpdateSessionService(Activity activity){
+    public static ISessionUpdateService createUpdateSessionService(Activity activity) {
         return new UpdateSessionService(activity);
     }
 
@@ -80,8 +81,9 @@ public class ServiceFactory {
         private ProgressParams progressParams;
 		private boolean cache;
 		private boolean mSkipErrors;
+		private boolean mIsAnonymous;
 
-        public ServiceParams(Activity act){
+        public ServiceParams(Activity act) {
             activity = act;
         }
 
@@ -89,32 +91,32 @@ public class ServiceFactory {
 		 * Отобразить диалог загрузки при вызове веб-метода
 		 * @param progressParams параметры для запуска диалога
 		 */
-		public void setProgressParams(ProgressParams progressParams){
+		public void setProgressParams(ProgressParams progressParams) {
             this.progressParams = progressParams;
 		}
 
-        public void setProgressMessage(String message){
+        public void setProgressMessage(String message) {
             progressParams = new ProgressParams(message);
         }
 
-        public void setProgressMessage(int messageId){
+        public void setProgressMessage(int messageId) {
             progressParams = new ProgressParams(activity.getString(messageId));
         }
 
 
-        ProgressParams getProgressParams(){
+        ProgressParams getProgressParams() {
             return progressParams;
         }
 
-		Activity getActivity(){
+		Activity getActivity() {
 			return activity;
 		}
 		
-		public void setCache(boolean val){
+		public void setCache(boolean val) {
 			cache = val;
 		}
 		
-		boolean getCache(){
+		boolean getCache() {
 			return cache;
 		}
 
@@ -122,8 +124,16 @@ public class ServiceFactory {
 			mSkipErrors = skipErrors;
 		}
 
-		public boolean isSkipErrors(){
+		public boolean isSkipErrors() {
 			return mSkipErrors;
+		}
+
+		public void setIsAnonymous(boolean isAnonymous) {
+			mIsAnonymous = isAnonymous;
+		}
+
+		public boolean isAnonymous() {
+			return mIsAnonymous;
 		}
 	}
 

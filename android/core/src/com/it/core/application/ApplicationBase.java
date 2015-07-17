@@ -10,15 +10,16 @@ import com.it.core.model.UserInfo;
 import com.it.core.notifications.NotificationProperties;
 import com.it.core.model.UserInfo.Credentials;
 import com.it.core.tools.CrashReportSender;
+import com.it.core.tools.LocaleHelper;
 
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
+import android.content.res.Configuration;
 
 import org.acra.ACRA;
 import org.acra.ACRAConfiguration;
 import org.acra.ACRAConfigurationException;
-import org.acra.ErrorReporter;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 
@@ -26,11 +27,8 @@ import org.acra.annotation.ReportsCrashes;
 		formKey = "", // This is required for backward compatibility but not used
 		socketTimeout = 20000,
 		connectionTimeout = 20000,
-
-//		formUri = "http://www.backendofyourchoice.com/reportpath",
 		mode = ReportingInteractionMode.TOAST,
 		forceCloseDialogAfterToast = false // optional, default false
-//		resToastText = R.string.crash_toast_text
 )
 
 public abstract class ApplicationBase extends Application {
@@ -83,7 +81,6 @@ public abstract class ApplicationBase extends Application {
 		instance = this;
 		// The following lines triggers the initialization of ACRA
 		ACRAConfiguration config = ACRA.getConfig();
-//		config.setMailTo("a.luzhetsliy@gmail.com");
 		config.setForceCloseDialogAfterToast(false);
 		config.setResToastText(R.string.crash_toast_text);
 		try	{
@@ -100,7 +97,12 @@ public abstract class ApplicationBase extends Application {
 		CrashReportSender reportSender = new CrashReportSender();
 		ACRA.getErrorReporter().setReportSender(reportSender);
 		ACRA.getErrorReporter().checkReportsOnApplicationStart();
-//		ErrorReporter.getInstance().checkReportsOnApplicationStart();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		LocaleHelper.refreshLocale();
 	}
 
 	public static ApplicationBase getInstance(){
@@ -206,13 +208,11 @@ public abstract class ApplicationBase extends Application {
 	
 	/**
 	 * Получить класс главной деятельности
-	 * @return
 	 */
 	public abstract Class<?> getMainActivityClass();
 
     /**
      * Нужно ли проверять наличие VPN соединения
-     * @return
      */
     public boolean needVpnConnection(){
         return false;
@@ -220,7 +220,6 @@ public abstract class ApplicationBase extends Application {
 
 	/**
 	 * В приложении используется вход в систему с помощью учетных данных
-	 * @return
 	 */
 	public boolean isRequireAuth(){
 		return true;
@@ -228,15 +227,29 @@ public abstract class ApplicationBase extends Application {
 
 	/**
 	 * Отображается ли выезжающее меню на на форме входа
-	 * @return
 	 */
 	public boolean hasLoginSlideMenu() {
 		return true;
 	}
 
 	/**
+	 * В приложении пользовательские настройки
+	 */
+	public boolean hasCustomSettings() {
+		return false;
+	}
+
+	/**
+	 * Инициализация пользовательских настроек
+	 */
+	public void initCustomSettings() {}
+
+	public boolean isUsingEds() {
+		return false;
+	}
+
+	/**
 	 * Модуль IT-Enterprise, к которому относится приложение
-	 * @return
 	 */
 	public String getSystemModule(){
 		return "";

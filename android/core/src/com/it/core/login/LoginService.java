@@ -15,6 +15,7 @@ import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.it.core.R;
 import com.it.core.activity.ActivityBase;
 import com.it.core.application.ApplicationBase;
+import com.it.core.eds.EdsRepository;
 import com.it.core.notifications.Dialog;
 import com.it.core.notifications.PushNotificationsService;
 import com.it.core.serialization.SerializeHelper;
@@ -190,20 +191,20 @@ public class LoginService implements ILoginService{
                     if (token.equals(REQUEST_CODE_RECOVER_KEY)) {
                         return;
                     }
-	    			// Отобразить процесс входа
-	    			final ProgressDialog progress = Dialog.showProgressDialog(mActivity, mActivity.getString(R.string.progress_dialog_loading_message));
-	    			// Выполнить запрос на аутентификацию по логину google
-	    			WebServiceLoginByGoogleIdExecutor exec = new WebServiceLoginByGoogleIdExecutor(token);
-	    			exec.setOnExecuteCompletedListener(new OnExecuteCompleted() {
-	    				/**
-	    				 * Получили ответ от веб-сервиса
-	    				 */
-	    				@Override
-	    				public void OnCompleted(String result) {
-	    					Dialog.hideProgress(progress);
-	    					// Недопустимый результат аутентификации
-	    					if (result == null) {
-	    						onLoginError();
+					// Отобразить процесс входа
+					final ProgressDialog progress = Dialog.showProgressDialog(mActivity, mActivity.getString(R.string.progress_dialog_loading_message));
+					// Выполнить запрос на аутентификацию по логину google
+					WebServiceLoginByGoogleIdExecutor exec = new WebServiceLoginByGoogleIdExecutor(token);
+					exec.setOnExecuteCompletedListener(new OnExecuteCompleted() {
+						/**
+						 * Получили ответ от веб-сервиса
+						 */
+						@Override
+						public void OnCompleted(String result) {
+							Dialog.hideProgress(progress);
+							// Недопустимый результат аутентификации
+							if (result == null) {
+								onLoginError();
 	    						return;
 	    					}
 	    					// Десериализировать JSON
@@ -255,6 +256,10 @@ public class LoginService implements ILoginService{
 			new PushNotificationsService().register(mActivity, applicationBase.getApplicationID(), applicationBase.getPushNotificationSenderId());
 			applicationBase.setRegisterForPush(true);
 		}
+		// Инициализировать пользовательские настройки
+		if (applicationBase.hasCustomSettings()) {
+			applicationBase.initCustomSettings();
+		}
 	}
 
 	private void onLoginFail() {
@@ -268,12 +273,12 @@ public class LoginService implements ILoginService{
 			handler.onError();
 		}
 	}
-	
+
 	public void logout() {
 		ApplicationBase applicationBase = ApplicationBase.getInstance();
-		applicationBase.putTicket(new String(UserInfo.getTicket()));
+		applicationBase.putTicket(new String(UserInfo.getTicket() + ""));
 		// Отписаться от push-уведомлений если были подписаны
-		if (applicationBase.isRegisterForPush()	&& !TextUtils.isEmpty(applicationBase.getApplicationID())) {
+		if (applicationBase.isRegisterForPush() && !TextUtils.isEmpty(applicationBase.getApplicationID())) {
 			new PushNotificationsService().unregister(mActivity, applicationBase.getApplicationID()//, new OnTaskCompleted() {
 //				@Override
 //				public void onTaskCompleted(Object result) {
@@ -282,19 +287,22 @@ public class LoginService implements ILoginService{
 //			}
 			);
 			applicationBase.setRegisterForPush(false);
-		} else {
-			clearCredentials();
+//			return;  TODO:remove - відписуватись від сповіщень і видаляти credentials
 		}
-
+		clearCredentials();
 	}
 
 	private void clearCredentials() {
 		UserInfo.removeTicketAndName();
 		UserInfo.removeCredentials();
-		ApplicationBase.getInstance().putCredentials(null);
+		ApplicationBase applicationBase = ApplicationBase.getInstance();
+		applicationBase.putCredentials(null);
 		Session.setId(null);
+		if (applicationBase.isUsingEds()) {
+			EdsRepository.getInstance().clearEdsCredentials();
+		}
 	}
-	
+
 	private static class LoginResult {
 		@JsonProperty("Success")
 		private boolean success;
@@ -302,23 +310,23 @@ public class LoginService implements ILoginService{
 		private String userName;
 		@JsonProperty("Ticket")
 		private String ticket;
-		
+
 		public boolean getSuccess(){
 			return success;
 		}
-		
+
 		public String getUserName(){
 			return userName;
 		}
-		
+
 		public String getTicket(){
 			return ticket;
 		}
-		
+
 		public void setSuccess(boolean val){
 			success = val;
 		}
-		
+
 		public void setUserName(String val){
 			userName = val;
 		}

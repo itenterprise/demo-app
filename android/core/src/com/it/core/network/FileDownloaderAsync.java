@@ -18,37 +18,46 @@ import java.net.URLConnection;
  */
 public class FileDownloaderAsync extends AsyncTask<String, String, String>{
 
+	/** progress dialog to show user that the backup is processing. */
+	private ProgressDialog mDialog;
+	/** application context. */
+	private Context mContext;
+	private boolean mShowProgress;
+	private OnFileDownloadCompleted mListener;
+	private int mDownloadMessageId;
+
+	public FileDownloaderAsync(Context context, OnFileDownloadCompleted listener) {
+		this(context, true, R.string.progress_dialog_loading_message, listener);
+	}
+
 	public FileDownloaderAsync(Context context, boolean showProgress, OnFileDownloadCompleted listener) {
+		this(context, showProgress, R.string.progress_dialog_loading_message, listener);
+	}
+
+	public FileDownloaderAsync(Context context, int downloadMessageId, OnFileDownloadCompleted listener) {
+		this(context, true, downloadMessageId, listener);
+	}
+
+	private FileDownloaderAsync(Context context, boolean showProgress, int downloadMessageId, OnFileDownloadCompleted listener) {
 		mContext = context;
 		mListener = listener;
 		mShowProgress = showProgress;
-    }
-
-	public FileDownloaderAsync(Context context, OnFileDownloadCompleted listener) {
-		this(context, true, listener);
+		mDownloadMessageId = downloadMessageId;
 	}
-	
+
 	private ProgressDialog createDialog(Context context) {
 		mDialog = new ProgressDialog(context);
-		mDialog.setMessage(context.getString(R.string.progress_dialog_loading_message));
+		mDialog.setMessage(context.getString(mDownloadMessageId));
 		mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		mDialog.setCancelable(false);
 		mDialog.show();
 		return mDialog;
 	}
-	
-	/** progress dialog to show user that the backup is processing. */
-    private ProgressDialog mDialog;
-    /** application context. */
-    private Context mContext;
-	private boolean mShowProgress;
-	
-	private OnFileDownloadCompleted mListener;
-	
+
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		if(mShowProgress){
+		if (mShowProgress) {
 			createDialog(mContext);
 		}
 	}
@@ -78,13 +87,13 @@ public class FileDownloaderAsync extends AsyncTask<String, String, String>{
 			output.close();
 			input.close();
 		} catch (Exception e) {
-            destinationPath = null;
-        }
+			destinationPath = null;
+		}
 		return destinationPath;
 	}
 	
 	protected void onProgressUpdate(String... progress) {
-		if(mShowProgress){
+		if (mShowProgress) {
 			mDialog.setProgress(Integer.parseInt(progress[0]));
 		}
 	}
@@ -92,8 +101,8 @@ public class FileDownloaderAsync extends AsyncTask<String, String, String>{
 	@Override
 	protected void onPostExecute(String destinationPath) {
 		if (mShowProgress && mDialog.isShowing()) {
-            mDialog.dismiss();
-        }
+			mDialog.dismiss();
+		}
 		mListener.onFileDownloadCompleted(destinationPath);
 	}
 }

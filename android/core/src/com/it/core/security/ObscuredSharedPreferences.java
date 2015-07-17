@@ -197,7 +197,6 @@ public class ObscuredSharedPreferences implements SharedPreferences {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-
 	}
 
 	private Set<String> encrypt(Set<String> value) {

@@ -27,6 +27,7 @@ public class WebServiceBase implements IWebService, OnExecuteCompleted {
 	private Class<?> resultType;
     private Activity mActivity;
 	protected boolean mSkipErrors;
+	protected boolean mIsAnonymous;
 
 	public WebServiceBase() {
 
@@ -34,9 +35,9 @@ public class WebServiceBase implements IWebService, OnExecuteCompleted {
 
 	public void execute(String method, Object params, Activity activity) {
         mActivity = activity;
-		if(NetworkParams.isNetworkConnected()){
+		if (NetworkParams.isNetworkConnected()) {
 			try {
-				WebServiceExecuteExecutor serv = new WebServiceExecuteExecutor(method, params);
+				WebServiceExecuteExecutor serv = new WebServiceExecuteExecutor(method, params, mIsAnonymous);
 				serv.setOnExecuteCompletedListener(this);
 				serv.execute();
 				return;
@@ -45,12 +46,12 @@ public class WebServiceBase implements IWebService, OnExecuteCompleted {
 		}
 		InternalStorageSerializer iss = new InternalStorageSerializer();
 		String jsonResult = iss.getJsonObject(activity, method, params);
-		if (jsonResult == null){
+		if (jsonResult == null) {
 			onCompleted(null);
 			return;
 		}
 		Object resultObj = null;
-		switch(execType.getValue()){
+		switch(execType.getValue()) {
 			case 1:
 				resultObj = SerializeHelper.deserializeList(jsonResult, resultType);
 				break;
@@ -61,7 +62,7 @@ public class WebServiceBase implements IWebService, OnExecuteCompleted {
 	}
 	
 	public void onCompleted(Object obj) {
-		if (listener != null){
+		if (listener != null) {
 			listener.onTaskCompleted(obj);
 		}
 	}
@@ -165,6 +166,11 @@ public class WebServiceBase implements IWebService, OnExecuteCompleted {
 	@Override
 	public void setSkipErrors(boolean skipErrors) {
 		mSkipErrors = skipErrors;
+	}
+
+	@Override
+	public void setIsAnonymous(boolean isAnonymous) {
+		mIsAnonymous = isAnonymous;
 	}
 
 	private enum ExecType{

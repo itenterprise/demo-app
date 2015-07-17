@@ -47,8 +47,8 @@ public class SerializeHelper {
 		}
 		return null;
 	}
-	
-	public static String serialize(Object obj){
+
+	public static String serialize(Object obj) {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
 		try {

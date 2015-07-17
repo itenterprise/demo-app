@@ -9,9 +9,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -19,14 +22,14 @@ import java.util.ArrayList;
 
 public class Dialog {
 
-	private static final int NO_TEXT = -1;
+	public static final int NO_TEXT = -1;
 
 	/**
 	 * Popup сообщение
 	 * @param context Контекст
 	 * @param message Сообщение
 	 */
-	public static void showPopup (Context context, String message){
+	public static void showPopup (Context context, String message) {
 		showPopup(context, null, message);
 	}
 
@@ -35,7 +38,7 @@ public class Dialog {
      * @param context Контекст
      * @param messageId Идентификатор сообщения в ресурсах
      */
-    public static void showPopup (Context context, int messageId){
+    public static void showPopup (Context context, int messageId) {
         showPopup(context, NO_TEXT, messageId);
     }
 
@@ -161,7 +164,15 @@ public class Dialog {
 	}
 
 	/**
-	 * Popup диалог с кнопками "Да"/"Нет"
+	 * Popup диалог типа YESNO
+	 * @param context Контекст
+	 * @param title Заголовок
+	 * @param message Сообщение
+	 * @param cancelable Возможность закрыть по клику вне диалога
+	 * @param positiveButtonTitle Заголовок кнопки "YES"
+	 * @param negativeButtonTitle Заголовок кнопки "NO"
+	 * @param positiveButtonOnClickListener Обработчик клика по кнопке "YES"
+	 * @param negativeButtonOnClickListener Обработчик клика по кнопке "NO"
 	 */
 	public static void showPopupDialog (Context context,
 	                                    String title,
@@ -189,8 +200,8 @@ public class Dialog {
 	                                    DialogInterface.OnClickListener positiveButtonOnClickListener,
 	                                    DialogInterface.OnClickListener negativeButtonOnClickListener){
 		showPopupDialog(context,
-				context.getString(titleId),
-				context.getString(messageId),
+				titleId == NO_TEXT ? null : context.getString(titleId),
+				messageId == NO_TEXT ? null : context.getString(messageId),
 				cancelable,
 				context.getString(positiveButtonTitleId),
 				context.getString(negativeButtonTitleId),
@@ -236,12 +247,6 @@ public class Dialog {
 		editText2.setHint(hint2);
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setTitle(title);
-//		final EditText editText = new EditText(context);
-//		editText.setText(defaultText);
-//		editText.setHint(hint);
-//		editText.setPadding(10, 10, 10, 10);
-//		editText.setGravity(Gravity.CENTER);
-//		editText.setTextSize(16);
 		builder.setView(textEntryView);
 		builder.setPositiveButton(context.getString(R.string.save), new DialogInterface.OnClickListener() {
 			@Override
@@ -250,6 +255,68 @@ public class Dialog {
 			}
 		});
 		builder.setNegativeButton(context.getString(R.string.cancel), null);
+		AlertDialog dialog = builder.create();
+		dialog.setCanceledOnTouchOutside(true);
+		dialog.show();
+	}
+
+	public static void showSetValueDialog(Context context, String title, String defaultValue,
+	                                 String hint, String positiveButtonTitle, String negativeButtonTitle,
+	                                 final OnValueSetListener onAddedListener) {
+		LayoutInflater factory = LayoutInflater.from(context);
+		final View textEntryView = factory.inflate(R.layout.alert_dialog_text_entry, null);
+		final EditText editText1 = (EditText)textEntryView.findViewById(R.id.alert_dialog_text_entry_edit_text1);
+		editText1.setText(defaultValue);
+		editText1.setHint(hint);
+		textEntryView.findViewById(R.id.alert_dialog_text_entry_edit_text2).setVisibility(View.GONE);
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setTitle(title);
+		builder.setView(textEntryView);
+		builder.setPositiveButton(positiveButtonTitle, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				onAddedListener.onSet(dialog, editText1.getText().toString(), "");
+			}
+		});
+		builder.setNegativeButton(negativeButtonTitle, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				onAddedListener.onCancel(dialog);
+			}
+		});
+		AlertDialog dialog = builder.create();
+		dialog.setCanceledOnTouchOutside(true);
+		dialog.show();
+	}
+
+	public static void showSetValueDialog(Context context, int titleId, int defaultValueId,
+	                                      int hintId, int positiveButtonTitleId, int negativeButtonTitleId,
+	                                      final OnValueSetListener onAddedListener) {
+		showSetValueDialog(context, context.getString(titleId), context.getString(defaultValueId),
+				context.getString(hintId), context.getString(positiveButtonTitleId), context.getString(negativeButtonTitleId),
+				onAddedListener);
+	}
+
+	public static void showSetPasswordDialog(Context context, String title, final OnPasswordSetListener onSetListener) {
+		LayoutInflater factory = LayoutInflater.from(context);
+		View textEntryView = factory.inflate(R.layout.alert_dialog_set_password, null);
+		final EditText passwordEditText = (EditText)textEntryView.findViewById(R.id.alert_dialog_password_edit_text);
+		final CheckBox rememberCheckBox = (CheckBox)textEntryView.findViewById(R.id.alert_dialog_check_box);
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setTitle(title);
+		builder.setView(textEntryView);
+		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				onSetListener.onSet(dialog, passwordEditText.getText().toString(), rememberCheckBox.isChecked());
+			}
+		});
+		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				onSetListener.onCancel(dialog);
+			}
+		});
 		AlertDialog dialog = builder.create();
 		dialog.setCanceledOnTouchOutside(true);
 		dialog.show();
@@ -315,32 +382,38 @@ public class Dialog {
 		return dialog;
 	}
 
-    private static AlertDialog.Builder createDialogBuilder (Context context, String title, String message, DialogInterface.OnCancelListener cancelListener) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        if(title != null) {
-            TextView titleText = new TextView(context);
-            titleText.setText(title);
-            titleText.setPadding(10, 10, 10, 10);
-            titleText.setGravity(Gravity.CENTER);
-            titleText.setTextColor(context.getResources().getColor(R.color.holo_blue_light));
-            titleText.setTextSize(23);
-            builder.setCustomTitle(titleText);
-        }
-        if (message != null) {
-            TextView messageText = new TextView(context);
-            messageText.setText(message);
-            messageText.setPadding(10, 10, 10, 10);
-            messageText.setGravity(Gravity.CENTER);
-            messageText.setTextSize(18);
-            builder.setView(messageText);
-        }
-	    if (cancelListener != null) {
-		    builder.setOnCancelListener(cancelListener);
-	    }
-        return builder;
-    }
+	private static AlertDialog.Builder createDialogBuilder (Context context, String title, String message, DialogInterface.OnCancelListener cancelListener) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		if(title != null) {
+			TextView titleText = new TextView(context);
+			titleText.setText(title);
+			titleText.setPadding(10, 10, 10, 10);
+			titleText.setGravity(Gravity.CENTER);
+			titleText.setTextColor(context.getResources().getColor(R.color.holo_blue_light));
+			titleText.setTextSize(23);
+			builder.setCustomTitle(titleText);
+		}
+		if (message != null) {
+			TextView messageText = new TextView(context);
+			messageText.setText(message);
+			messageText.setPadding(10, 10, 10, 10);
+			messageText.setGravity(Gravity.CENTER);
+			messageText.setTextSize(18);
+			builder.setView(messageText);
+		}
+		if (cancelListener != null) {
+			builder.setOnCancelListener(cancelListener);
+		}
+		return builder;
+	}
 
 	public interface OnValueSetListener {
 		public void onSet(DialogInterface dialog, String value1, String value2);
+		public void onCancel(DialogInterface dialog);
+	}
+
+	public interface OnPasswordSetListener {
+		public void onSet(DialogInterface dialog, String pass, boolean remember);
+		public void onCancel(DialogInterface dialog);
 	}
 }

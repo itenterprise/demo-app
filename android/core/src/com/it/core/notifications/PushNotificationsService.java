@@ -37,8 +37,9 @@ public class PushNotificationsService {
 	 * @param activity Активность
 	 * @param appId Идентификатор приложения
 	 */
-	public void unregister(final Activity activity, final String appId) {
+	public void unregister(final Activity activity, final String appId) {//}, OnTaskCompleted handler) {
 		IService service = ServiceFactory.createService();
+//		service.setOnExecuteCompletedHandler(handler);
 		service.Exec("UNREGUSER", new Object() {
 			public String appid = appId;
 			public String deviceid = getRegistrationId(activity);
@@ -46,24 +47,8 @@ public class PushNotificationsService {
 		clearRegistrationId(activity);
 	}
 
-//	/**
-//	 * Отписаться от отправки push-уведомлений
-//	 * @param activity Активность
-//	 * @param appId Идентификатор приложения
-//	 */
-//	public void unregister(final Activity activity, final String appId, OnTaskCompleted listener) {
-//		IService service = ServiceFactory.createService();
-//		service.setOnExecuteCompletedHandler(listener);
-//		service.Exec("UNREGUSER", new Object() {
-//			public String appid = appId;
-//			public String deviceid = getRegistrationId(activity);
-//		}, activity);
-//		clearRegistrationId(activity);
-//	}
-
     /**
      * Получить registration ID
-     * 
      * @param activity Активность
      */
     private void registerInBackground(final Activity activity, final String appId, final String senderId) {

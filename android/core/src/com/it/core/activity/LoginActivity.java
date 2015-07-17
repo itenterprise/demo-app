@@ -11,6 +11,7 @@ import com.it.core.network.NetworkParams;
 import com.it.core.notifications.Dialog;
 import com.it.core.service.ServiceFactory;
 import com.it.core.R;
+import com.it.core.tools.PreferenceHelper;
 
 import android.app.ActionBar;
 import android.content.Context;
@@ -40,8 +41,8 @@ public class LoginActivity extends ActivityBase implements OnLoginCompleted {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-        // Установить layout
-        setContentView(R.layout.activity_login);
+		// Установить layout
+		setContentView(R.layout.activity_login);
 		super.onCreate(savedInstanceState);
 	}
 
@@ -92,8 +93,8 @@ public class LoginActivity extends ActivityBase implements OnLoginCompleted {
 			showErrorMessage();
 		}
 
-		private void showErrorMessage(){
-			Dialog.showPopupWithBack(LoginActivity.this, getString(R.string.cannot_login_with_google_title), getString(R.string.cannot_login_with_google_message));
+		private void showErrorMessage() {
+			Dialog.showPopup(LoginActivity.this, getString(R.string.cannot_login_with_google_title), getString(R.string.cannot_login_with_google_message));
 		}
 	};
 
@@ -101,7 +102,10 @@ public class LoginActivity extends ActivityBase implements OnLoginCompleted {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if(ApplicationBase.getInstance().hasLoginSlideMenu()){
 			ActionBar actionBar = getActionBar();
-			actionBar.setDisplayHomeAsUpEnabled(true);
+			if (actionBar != null) {
+				actionBar.setTitle(R.string.title_activity_login);
+				actionBar.setDisplayHomeAsUpEnabled(true);
+			}
 		}
 		super.onCreateOptionsMenu(menu);
 		return true;
@@ -109,7 +113,6 @@ public class LoginActivity extends ActivityBase implements OnLoginCompleted {
 	
 	/**
 	 * Создание пунктов выезжающего меню
-	 * 
 	 * @param sections Секции
 	 */
 	@Override
@@ -121,7 +124,6 @@ public class LoginActivity extends ActivityBase implements OnLoginCompleted {
 	
 	/**
 	 * Обработчик клика на пункте меню
-	 * 
 	 * @param id ID пункта меню
 	 */
 	@Override
@@ -129,8 +131,8 @@ public class LoginActivity extends ActivityBase implements OnLoginCompleted {
 		Intent i;
 		switch ((int) id) {
 		case 998:
-			i = new Intent(this, SettingsActivity.class);
-			startActivity(i);
+			i = new Intent(this, SettingsActivityBase.class);
+			startActivityForResult(i, REQUEST_CODE_URL_CHANGED);
 			break;
 		}
 	}
@@ -160,7 +162,7 @@ public class LoginActivity extends ActivityBase implements OnLoginCompleted {
 			passwordView.setError(getString(R.string.error_field_required));
 			focusView = passwordView;
 			cancel = true;
-		} 
+		}
 		if (TextUtils.isEmpty(login)) {
 			loginView.setError(getString(R.string.error_field_required));
 			focusView = loginView;

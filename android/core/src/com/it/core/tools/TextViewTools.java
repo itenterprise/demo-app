@@ -2,7 +2,12 @@ package com.it.core.tools;
 
 import android.app.Activity;
 import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 /**

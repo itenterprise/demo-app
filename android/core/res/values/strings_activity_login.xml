@@ -2,8 +2,8 @@
 <resources>
 
     <string name="title_activity_login">Вход в систему</string>
-    <string name="prompt_login">Логин</string>
-    <string name="prompt_password">Пароль</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
     <string name="action_sign_in_register">Вход</string>
     <string name="error_invalid_password">Неверный пароль</string>
     <string name="error_field_required">Необходимо заполнить</string>
